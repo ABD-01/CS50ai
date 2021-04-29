@@ -109,6 +109,8 @@ def minimax(board):
     """
     # global cases_explored
     # cases_explored = 0
+    alpha = -math.inf
+    beta = math.inf
     if terminal(board):
         return None
 
@@ -118,10 +120,13 @@ def minimax(board):
         optimAction = None
         for action in actions(board):
             # cases_explored += 1
-            new_value = min_value(result(board,action))
+            new_value = min_value(result(board,action), alpha, beta)
             if value < new_value:
                 optimAction = action
                 value = new_value
+            alpha = max(alpha, value)
+            if alpha >= beta:
+                break
     
     # MIN-VALUE
     else:
@@ -129,16 +134,19 @@ def minimax(board):
         optimAction = None
         for action in actions(board):
             # cases_explored += 1
-            new_value = max_value(result(board, action))
+            new_value = max_value(result(board, action), alpha, beta)
             if value > new_value:
                 optimAction = action
                 value = new_value
+            beta = min(beta, value)
+            if beta <= alpha:
+                break
 
     # print("No. of cases explored :", cases_explored)
     return optimAction
 
 
-def max_value(board):
+def max_value(board, alpha, beta):
     """
     Return the max-value for the given state
     """
@@ -149,10 +157,13 @@ def max_value(board):
     value = -math.inf
     for action in actions(board):
         # cases_explored += 1
-        value = max(value, min_value(result(board, action)))
+        value = max(value, min_value(result(board, action), alpha, beta))
+        alpha = max(alpha, value)
+        if alpha >= beta:
+            break
     return value
 
-def min_value(board):
+def min_value(board, alpha, beta):
     """
     Return the min-value for the given state
     """   
@@ -163,5 +174,8 @@ def min_value(board):
     value = math.inf
     for action in actions(board):
         # cases_explored += 1
-        value = min(value, max_value(result(board, action)))
+        value = min(value, max_value(result(board, action), alpha, beta))
+        beta = min(beta, value)
+        if beta <= alpha:
+            break
     return value
