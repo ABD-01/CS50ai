@@ -13,7 +13,9 @@ CKnave = Symbol("C is a Knave")
 # A says "I am both a knight and a knave."
 sentence0a = And(AKnight, AKnave)
 knowledge0 = And(
-    Or(AKnight, AKnave), # A is either a knight or a knave
+    # Or(AKnight, AKnave), # A is either a knight or a knave
+    Not(Biconditional(AKnight, AKnave)),
+
     Implication(AKnight, sentence0a), # when A is knight
     Implication(AKnave, Not(sentence0a)) # when A is knave
 )
@@ -23,8 +25,11 @@ knowledge0 = And(
 # B says nothing.
 sentence1a = And(AKnave, BKnave)
 knowledge1 = And(
-    Or(AKnight, AKnave), # A is either a knight or a knave
-    Or(BKnight, BKnave), # B is either a knight or a knave
+    # Or(AKnight, AKnave), # A is either a knight or a knave
+    # Or(BKnight, BKnave), # B is either a knight or a knave
+    Not(Biconditional(AKnight, AKnave)),
+    Not(Biconditional(BKnight, BKnave)),
+
     Implication(AKnight, sentence1a),
     Implication(AKnave, Not(sentence1a))
 )
@@ -35,8 +40,11 @@ knowledge1 = And(
 sentence2a = Or(And(AKnight, BKnight), And(AKnave, BKnave))
 sentence2b = Or(And(AKnight, BKnave), And(AKnave, BKnight))
 knowledge2 = And(
-    Or(AKnight, AKnave), # A is either a knight or a knave
-    Or(BKnight, BKnave), # B is either a knight or a knave
+    # Or(AKnight, AKnave), # A is either a knight or a knave
+    # Or(BKnight, BKnave), # B is either a knight or a knave
+    Not(Biconditional(AKnight, AKnave)),
+    Not(Biconditional(BKnight, BKnave)),
+
     Implication(AKnight, sentence2a),
     Implication(AKnave, Not(sentence2a)),
     Implication(BKnight, sentence2b),
@@ -56,9 +64,13 @@ sentence3b = And(
 )
 sentence3c = AKnight
 knowledge3 = And(
-    Or(AKnight, AKnave), # A is either a knight or a knave
-    Or(BKnight, BKnave), # B is either a knight or a knave
-    Or(CKnight, CKnave), # C is either a knight or a knave
+    # Or(AKnight, AKnave), # A is either a knight or a knave
+    # Or(BKnight, BKnave), # B is either a knight or a knave
+    # Or(CKnight, CKnave), # C is either a knight or a knave
+    Not(Biconditional(AKnight, AKnave)),
+    Not(Biconditional(BKnight, BKnave)),
+    Not(Biconditional(CKnight, CKnave)),
+
     Implication(AKnight, sentence3a),
     Implication(AKnave, Not(sentence3a)),
     Implication(BKnight, sentence3b),
